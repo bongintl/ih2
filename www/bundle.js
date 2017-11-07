@@ -1340,7 +1340,8 @@ var state = {
         UPDATE_LOGO_POSITION: 'updateLogoPosition',
         ANIMATION_START: 'animationStart',
         ANIMATION_STOP: 'animationStop',
-        ANIMATION_STEP: 'animationStep'
+        ANIMATION_STEP: 'animationStep',
+        UPDATE_IMAGE_SIZE: 'updateImageSize'
     },
 
     data: {
@@ -2328,79 +2329,7 @@ process.umask = function() { return 0; };
 var m = __webpack_require__(0);
 var { apiBase } = __webpack_require__(2);
 
-module.exports = url => {
-    return m.request(apiBase + url);
-};
-
-var repeat = (arr, times) => arr.concat(times === 1 ? [] : repeat(arr, times - 1));
-
-// var data = {
-
-//     '/': {
-//         featured: [{
-//             image: [{ w: 1700, h: 1134, url: 'http://isabelandhelen.com/img/_xlarge/LCC_IH_RESIZE_07.jpg' }],
-//             slug: 'lcc-degree-show-2017'
-//         },{
-//             image: [{ w: 1300, h: 1950, url: 'http://isabelandhelen.com/img/_large/IMG_5443.jpg' }],
-//             slug: 'lcc-degree-show-2017'
-//         },{
-//             image: [{ w: 1700, h: 1134, url: 'http://isabelandhelen.com/img/_xlarge/isabelhelen_selfridges_10.jpg' }],
-//             slug: 'lcc-degree-show-2017'
-//         }],
-//         projects: repeat( [{
-//             title: 'LCC Degree Show 2017',
-//             thumbnail: [
-//                 { w: 1700, h: 1134, url: 'http://isabelandhelen.com/img/_xlarge/LCC_IH_RESIZE_07.jpg' }
-//             ],
-//             slug: 'lcc-degree-show-2017'
-//         },{
-//             title: 'The Noisemakers',
-//             thumbnail: [
-//                 { w: 1300, h: 1950, url: 'http://isabelandhelen.com/img/_large/IMG_5443.jpg' }
-//             ],
-//             slug: 'the-noisemakers'
-//         }], 4 ),
-//         contact: [{
-//             label: 'Email',
-//             text: 'isabelandhelen@gmail.com',
-//             url: 'bong.international'
-//         },{
-//             label: 'Instagram',
-//             text: '@isabelandhelen',
-//             url: null
-//         },{
-//             label: 'Isabel',
-//             text: '+44 1241 420420',
-//             url: null
-//         },{
-//             label: 'Helen',
-//             text: '+44 1241 420420',
-//             url: null
-//         }]
-//     },
-
-//     'project': {
-//         title: 'LCC Degree Show 2017',
-//         images: [{
-//             size: 'large',
-//             srcs: [{ w: 1700, h: 1134, url: 'http://isabelandhelen.com/img/_xlarge/LCC_IH_RESIZE_07.jpg' }]
-//         },{
-//             size: 'huge',
-//             srcs: [{ w: 1700, h: 1134, url: 'http://isabelandhelen.com/img/_xlarge/LCC_IH_RESIZE_07.jpg' }]
-//         }],
-//         description: "<p>Signage and wayfinding for LCC's degree shows in collaboration with designer Nina Jua Klein.</p>",
-//         credits: [{
-//             label: 'Commissioned by',
-//             text: 'Nina Jua Klien',
-//             url: 'bong.international'
-//         },{
-//             label: 'Client',
-//             text: 'LCC',
-//             url: null
-//         }]
-//     }
-
-// }
+module.exports = url => m.request(apiBase + url);
 
 /***/ }),
 /* 11 */
@@ -2634,15 +2563,6 @@ emitter.on(state.events.LOADED, () => {
 });
 
 emitter.emit(state.events.LOAD);
-
-// api('/').then( data => {
-//     state.data = data;
-//     m.route( document.body, '/', routes );
-//     window.addEventListener( 'resize', m.redraw );
-// })
-
-// window.addEventListener('keydown', e => e.keyCode === 70 && document.body.classList.toggle('fancy-font'))
-// window.addEventListener('keydown', e => e.keyCode === 67 && document.body.classList.toggle('fancy-corners'))
 
 /***/ }),
 /* 22 */
@@ -3846,7 +3766,7 @@ module.exports = {
 
     '/project/:slug': route('project', () => {
         var slug = m.route.param('slug');
-        return m(Layout, { route: 'project' }, m(Project, { slug, key: slug }));
+        return m(Layout, m(Project, { slug, key: slug }));
     })
 
 };
@@ -3857,98 +3777,13 @@ module.exports = {
 
 var m = __webpack_require__(0);
 
-var { state } = __webpack_require__(1);
-var { spacing, curveSize } = __webpack_require__(2);
-
 var Logo = __webpack_require__(34);
-var Featured = __webpack_require__(15);
-
-var loadImage = __webpack_require__(4);
-var wait = __webpack_require__(12);
-var { contain } = __webpack_require__(13);
-
-var updateSize = vnode => {
-
-    var { image } = state.data.featured[vnode.state.imageIndex];
-
-    var size = [image[0].w, image[0].h];
-
-    var safeArea = [window.innerWidth - spacing * 4, window.innerHeight - spacing * 4];
-
-    safeArea[vnode.state.axis === 'x' ? 0 : 1] -= curveSize[1] * 4;
-
-    var max = contain(size, safeArea);
-
-    var scale = [1 / 4, 1 / 2, 3 / 4, 1][Math.floor(Math.random() * 4)];
-
-    vnode.state.imageSize = [max[0] * scale, max[1] * scale];
-};
-
-var check = vnode => {
-
-    var shouldAnimate = vnode.attrs.route === 'home' && !state.projectsVisible;
-
-    if (shouldAnimate && !vnode.state.timer) {
-
-        start(vnode);
-    } else if (!shouldAnimate && vnode.state.timer) {
-
-        stop(vnode);
-    }
-};
-
-var start = vnode => {
-
-    var tick = () => {
-
-        vnode.state.axis = vnode.state.axis === 'x' ? 'y' : 'x';
-        vnode.state.imageIndex++;
-        vnode.state.imageIndex %= state.data.featured.length;
-        updateSize(vnode);
-        vnode.state.timer = setTimeout(tick, 4000);
-        m.redraw();
-    };
-
-    vnode.state.timer = setTimeout(tick, 4000);
-};
-
-var stop = vnode => {
-
-    clearTimeout(vnode.state.timer);
-    vnode.state.timer = false;
-};
 
 module.exports = {
 
-    // timer: false,
-
-    // oninit: vnode => {
-    // updateSize( vnode );
-    // check( vnode );
-    // },
-
-    // onupdate: check,
-
     view: ({ children }) => {
 
-        var { route, featuredImageIndex, featuredImageSize } = state;
-
-        var { image, slug } = state.data.featured[featuredImageIndex];
-
-        return [m(Logo),
-        // [ route === 'home' && ],
-        children];
-
-        // return [
-        //     m( Logo, /*{ position, axis }*/ ),
-        //     // [ route === 'home' && !state.projectsVisible &&  m( Featured, {
-        //     //         key: imageIndex,
-        //     //         srcs: ft.image,
-        //     //         size: imageSize,
-        //     //         href: '/project/' + ft.slug
-        //     // }) ],
-        //     children
-        // ]
+        return [m(Logo), children];
     }
 
 };

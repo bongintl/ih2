@@ -22,7 +22,8 @@ var state = {
         UPDATE_LOGO_POSITION: 'updateLogoPosition',
         ANIMATION_START: 'animationStart',
         ANIMATION_STOP: 'animationStop',
-        ANIMATION_STEP: 'animationStep'
+        ANIMATION_STEP: 'animationStep',
+        UPDATE_IMAGE_SIZE: 'updateImageSize'
     },
     
     data: {

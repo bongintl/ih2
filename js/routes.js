@@ -17,7 +17,7 @@ module.exports = {
     
     '/project/:slug': route( 'project', () => {
         var slug = m.route.param('slug');
-        return m( Layout, { route: 'project' },
+        return m( Layout,
             m( Project, { slug, key: slug } )
         )
     })

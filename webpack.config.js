@@ -10,19 +10,13 @@ module.exports = ( env = {} ) => {
         
         target: 'web',
         
-        entry: ifEnv({
-            
-            // 'production': [ 'babel-polyfill' ],
-            
-            '*': [
+        entry: [
                 
-                path.resolve( __dirname, 'scss', 'style.scss' ),
+            path.resolve( __dirname, 'scss', 'style.scss' ),
                 
-                path.resolve( __dirname, 'js', 'client.js' )
+            path.resolve( __dirname, 'js', 'client.js' )
                 
-            ]
-            
-        }),
+        ],
         
         devtool: ifEnv({
             
