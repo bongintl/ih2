@@ -1,0 +1,7 @@
+@function column-width ( $w, $of ) {
+    @return calc( ( ( 100vw - #{ $spacing } ) / #{ $of } * #{ $w } ) - #{ $spacing } );
+}
+
+@function column-x ( $x, $of ) {
+    @return calc( #{ $spacing } + ( 100vw - #{ $spacing } ) / #{ $of } * #{ $x } );
+}

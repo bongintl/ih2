@@ -1,0 +1,6 @@
+.toggler {
+    transition: opacity $transition-duration * 2;
+    &_hidden {
+        opacity: 0;
+    }
+}

@@ -1,0 +1,23 @@
+.column {
+    
+    margin-left: $spacing;
+    float: left;
+    min-height: calc( 100vh - #{ $spacing } );
+    width: column-width( $columns-small, $columns-small );
+    margin-top: $spacing;
+    
+    @include medium {
+        width: column-width( 4, $columns-medium );
+        &:not(:first-of-type) {
+            margin-left: column-x( 2, $columns-medium );
+        }
+    }
+    
+    @include large {
+        width: column-width( 4, $columns-large );
+        &:not(:first-of-type) {
+            margin-left: column-x( 1, $columns-large );
+        }
+    }
+    
+}

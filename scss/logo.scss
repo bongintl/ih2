@@ -1,0 +1,165 @@
+.logo {
+    pointer-events: none;
+}
+
+.ih {
+    
+    pointer-events: visible;
+    contain: strict;
+    
+    &_fixed {
+        
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        
+        pointer-events: none;
+        animation: fade-in 2s;
+        
+        @mixin offset ( $small, $medium, $large ) {
+            left: column-x( $small, $columns-small );
+            @include medium {
+                left: column-x( $medium, $columns-medium );
+            }
+            @include large {
+                left: column-x( $large, $columns-large );
+            }
+            
+        }
+        
+        @mixin transition-x-first {
+            transition:
+                width $transition-duration * .75,
+                left $transition-duration * .75,
+                top $transition-duration * .75 $transition-duration,
+                height $transition-duration * .75 $transition-duration;
+        }
+        
+        @mixin transition-y-first {
+            transition:
+                top $transition-duration * .75,
+                height $transition-duration * .75,
+                left $transition-duration * .75 $transition-duration,
+                width $transition-duration * .75 $transition-duration;
+        }
+        
+        .logo_frame-x & {
+            @include transition-x-first;
+        }
+        
+        .logo_frame-y & {
+            @include transition-y-first;
+        }
+        
+        .logo_gutter &,
+        .logo_edge & {
+            top: $spacing;
+            width: column-width( 1, $columns-small );
+            @include transition-x-first;
+            height: calc( 100vh - #{ $spacing * 2 } );
+            @include medium {
+                width: column-width( 1, $columns-medium );
+            }
+            @include large {
+                width: column-width( 1, $columns-large );
+            }
+        }
+        
+        .logo_gutter & {
+            &.ih_i {
+                @include offset( -1, 4, 4 );
+            }
+            &.ih_h {
+                @include offset( $columns-small + 1, 5, 9 );
+            }
+        }
+        
+        .logo_edge & {
+            cursor: pointer;
+            pointer-events: visible;
+            &.ih_i {
+                @include offset( -1, 0, 0 );
+            }
+            &.ih_h {
+                @include offset( $columns-small + 1, $columns-medium - 1, $columns-large - 1 );
+            }
+        }
+        
+    }
+    
+    &__line {
+        position: absolute;
+        background: black;
+        &_top {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: $stroke-width;
+        }
+        &_right {
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: $stroke-width;
+        }
+        &_bottom {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: $stroke-width;
+        }
+        &_left {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: $stroke-width;
+        }
+        &_horizontal {
+            top: 50%;
+            left: 0;
+            height: $stroke-width;
+            width: 100%;
+            transform: translateY(-$stroke-width / 2);
+        }
+        &_vertical {
+            left: 50%;
+            top: 0;
+            width: $stroke-width;
+            height: 100%;
+            transform: translateX(-$stroke-width / 2);
+        }
+    }
+    
+    &__curves {
+        position: absolute;
+        width: $curves-width;
+        height: $curves-height;
+        background-image: url(../www/assets/corner.svg);
+        transform-origin: 50% 0;
+        // display: none;
+        // .fancy-corners & {
+        //     display: block;
+        // }
+        &_top {
+            top: $stroke-width;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        &_right {
+            top: 50%;
+            right: $stroke-width;
+            transform: translateX(50%) rotate(90deg);
+        }
+        &_bottom {
+            left: 50%;
+            bottom: $stroke-width;
+            transform: translate(-50%, 100%) rotate(180deg);
+        }
+        &_left {
+            top: 50%;
+            left: $stroke-width;
+            transform: translate(-50%, 0) rotate(-90deg)
+        }
+    }
+}

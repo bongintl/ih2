@@ -1,0 +1,22 @@
+.table {
+    white-space: nowrap;
+    margin-bottom: $spacing;
+    &__row {
+        &:after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+    }
+    &__cell {
+        p {
+            padding-bottom: .125em * $line-height-small;
+        }
+        &_left {
+            float: left;
+        }
+        &_right {
+            float: right;
+        }
+    }
+}

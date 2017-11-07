@@ -1,0 +1,29 @@
+.section {
+    position: relative;
+    height: 0;
+    min-height: calc( 100vh - #{ $spacing * 2 } );
+    &_large {
+        margin: $spacing;
+        padding-bottom: $spacing;
+        @include medium {
+            margin: $spacing column-x( 1, $columns-medium ) $spacing * 2 column-x( 1, $columns-medium );
+        }
+        @include large {
+            margin: $spacing column-x( 1, $columns-large ) $spacing * 2 column-x( 1, $columns-large ) ;
+        }
+    }
+    
+    &_huge {
+        min-height: 100vh;
+    }
+    
+    &_text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 50vh;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+}

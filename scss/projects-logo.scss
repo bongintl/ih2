@@ -1,0 +1,18 @@
+.projects-logo {
+    padding-bottom: 20%;
+    margin-bottom: $spacing;
+    position: relative;
+    .ih {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: column-width( 1, $columns-small );
+        &_i {
+            left: 0;
+        }
+        &_h {
+            right: 0;
+        }
+        
+    }
+}

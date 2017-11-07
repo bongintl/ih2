@@ -1,0 +1,19 @@
+.image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity .25s;
+    &_loaded {
+        opacity: 1;
+    }
+    &_inline {
+        position: relative;
+        height: 0;
+    }
+}
