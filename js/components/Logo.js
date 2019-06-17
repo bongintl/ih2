@@ -9,10 +9,10 @@ var tween = require('../utils/tween');
 
 var style = ({ x, y, w, h }) => ({
     // transform: `translate( ${x}px, ${y}px)`,
-    left: x + 'px',
-    top: y + 'px',
-    width: w + 'px',
-    height: h + 'px'
+    left: Math.floor( x ) + 'px',
+    top: Math.floor( y ) + 'px',
+    right: Math.floor( window.innerWidth - ( x + w ) ) + 'px',
+    bottom: Math.floor( window.innerHeight - ( y + h ) ) + 'px'
 })
 
 var frameX = size => {

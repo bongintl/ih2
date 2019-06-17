@@ -4,11 +4,13 @@
     z-index: 200;
     top: 50%;
     left: 50%;
-    animation: fade-in .5s linear .5s;
+    animation: fade-in $transition-duration ease-out $transition-delay;
     animation-fill-mode: both;
+    // @include curtain-x;
     transform: translate(-50%, -50%);
+    pointer-events: none;
     &_exit {
-        animation: fade-out .5s;
+        animation: fade-out $transition-duration;
         animation-fill-mode: both;
     }
 }

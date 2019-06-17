@@ -13,6 +13,8 @@ module.exports = {
     
     entering: true,
     
+    
+    
     oncreate: vnode => {
         
         emitVisible( vnode.dom );

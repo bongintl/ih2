@@ -8,6 +8,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.25.0",
+    "eases": "^1.0.8",
     "express": "^4.15.3",
     "lodash": "^4.17.4",
     "mithril": "^1.1.4",
@@ -31,7 +32,7 @@
     "webpack": "^3.4.1"
   },
   "scripts": {
-    "dev": "webpack --env.dev true --watch & npm run start",
+    "dev": "webpack --env.dev true --watch",
     "build": "webpack --env.production true",
     "start": "node js/server"
   }

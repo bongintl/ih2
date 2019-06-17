@@ -25,12 +25,8 @@
     }
     
     body:not(.touch) &:hover .image {
-        visibility: hidden;
-        // opacity: .1;
-        &:after {
-            // opacity: 1;
-        }
-        // filter: brightness( 1.5 )
+        filter: grayscale(100%);
+        transition: none;
     }
     
     &__inline-label {

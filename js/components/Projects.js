@@ -6,7 +6,6 @@ var Thumbnail = require( './Thumbnail' );
 var Toggler = require('./Toggler');
 
 var { state } = require('../state');
-var config = require('../config');
 var breakpoint =  require('../utils/breakpoint')
 
 var Logo = () => {
@@ -29,12 +28,12 @@ var columns = ( projects, contact ) => {
     switch ( breakpoint() ) {
         
         case 'large':
-            cols = [
-                [],
-                [ Contact( contact ) ],
-                []
-            ];
-            break;
+            // cols = [
+            //     [],
+            //     [ Contact( contact ) ],
+            //     []
+            // ];
+            // break;
             
         case 'medium':
             cols = [

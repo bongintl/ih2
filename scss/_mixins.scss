@@ -5,3 +5,42 @@
 @mixin large {
     @media screen and ( min-width: 1200px ) { @content; }
 }
+
+// @keyframes scale-x {
+//     from { transform: scale(0,1); }
+//     to { transform: scale(1,1); }
+// }
+
+// @keyframes scale-y {
+//     from { transform: scale(1,0); }
+//     to { transform: scale(1,1); }
+// }
+
+// @mixin curtains {
+//     &:before, &:after {
+//         content: '';
+//         display: block;
+//         position: absolute;
+//         background: white;
+//         z-index: 10;
+//     }
+// }
+
+// @mixin curtain-x {
+//     @include curtains;
+//     &:before, &:after {
+//         top: 0;
+//         width: 50%;
+//         height: 100%;
+//     }
+//     &:before {
+//         left: 0;
+//         transform-origin: 0 0;
+//         animation: scale-x $transition-duration $transition-easing $transition-delay 1 reverse both;
+//     }
+//     &:after {
+//         right: 0;
+//         transform-origin: 100% 0;
+//         animation: scale-x $transition-duration $transition-easing $transition-delay 1 reverse both;
+//     }
+// }

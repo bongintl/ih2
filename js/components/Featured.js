@@ -18,7 +18,7 @@ module.exports = {
             height: size[ 1 ] + 'px'
         }
         
-        return m('a.featured', { style, href, oncreate: m.route.link },
+        return m('.featured', { style },
             m( Image, { srcs } )
         )
         

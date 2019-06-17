@@ -8,8 +8,8 @@
     background-size: contain;
     background-repeat: no-repeat;
     opacity: 0;
-    transition: opacity .25s;
     &_loaded {
+        animation: fade-in $transition-duration;
         opacity: 1;
     }
     &_inline {

@@ -28,7 +28,7 @@ module.exports = ( env = {} ) => {
         
         output: {
             
-            path: path.resolve( __dirname, 'www' ),
+            path: __dirname,
             
             filename: 'bundle.js',
             

@@ -1,16 +1,21 @@
 .section {
     position: relative;
-    height: 0;
-    min-height: calc( 100vh - #{ $spacing * 2 } );
-    &_large {
-        margin: $spacing;
-        padding-bottom: $spacing;
-        @include medium {
-            margin: $spacing column-x( 1, $columns-medium ) $spacing * 2 column-x( 1, $columns-medium );
-        }
-        @include large {
-            margin: $spacing column-x( 1, $columns-large ) $spacing * 2 column-x( 1, $columns-large ) ;
-        }
+    margin-bottom: $spacing;
+    margin-left: $spacing;
+    margin-right: $spacing;
+    &:first-child {
+        margin-top: $spacing;
+    }
+    &_100vh {
+        height: calc( 100vh - #{ $spacing * 2 } );
+    }
+    @include medium {
+        margin-left: column-x( 1, $columns-medium );
+        margin-right: column-x( 1, $columns-medium );
+    }
+    @include large {
+        margin-left: column-x( 1, $columns-large );
+        margin-right: column-x( 1, $columns-large ) ;
     }
     
     &_huge {

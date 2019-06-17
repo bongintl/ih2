@@ -14,9 +14,9 @@
     }
     
     @include large {
-        width: column-width( 4, $columns-large );
+        width: column-width( 6, $columns-large );
         &:not(:first-of-type) {
-            margin-left: column-x( 1, $columns-large );
+            margin-left: column-x( 2, $columns-large );
         }
     }
     

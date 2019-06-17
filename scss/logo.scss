@@ -17,7 +17,7 @@
         pointer-events: none;
         animation: fade-in 2s;
         
-        @mixin offset ( $small, $medium, $large ) {
+        @mixin left ( $small, $medium, $large ) {
             left: column-x( $small, $columns-small );
             @include medium {
                 left: column-x( $medium, $columns-medium );
@@ -28,20 +28,42 @@
             
         }
         
+        @mixin right ( $small, $medium, $large ) {
+            right: column-x( $columns-small - $small, $columns-small );
+            @include medium {
+                right: column-x( $columns-medium - $medium, $columns-medium );
+            }
+            @include large {
+                right: column-x( $columns-large - $large, $columns-large );
+            }
+        }
+        
+        $duration: $transition-duration;
+        $delay: $transition-delay;
+        $easing: $transition-easing;
+        
         @mixin transition-x-first {
             transition:
-                width $transition-duration * .75,
-                left $transition-duration * .75,
-                top $transition-duration * .75 $transition-duration,
-                height $transition-duration * .75 $transition-duration;
+                right $duration 0s $easing,
+                left $duration 0s $easing,
+                top $duration $delay $easing,
+                bottom $duration $delay $easing;
         }
         
         @mixin transition-y-first {
             transition:
-                top $transition-duration * .75,
-                height $transition-duration * .75,
-                left $transition-duration * .75 $transition-duration,
-                width $transition-duration * .75 $transition-duration;
+                top $duration 0s $easing,
+                bottom $duration 0s $easing,
+                left $duration $delay $easing,
+                right $duration $delay $easing;
+        }
+        
+        @mixin transition-order( $first, $second, $third, $fourth ) {
+            transition:
+                $first $duration 0s $easing,
+                $second $duration $delay $easing,
+                $third $duration $delay * 2 $easing,
+                $fourth $duration $delay * 3 $easing;
         }
         
         .logo_frame-x & {
@@ -55,34 +77,31 @@
         .logo_gutter &,
         .logo_edge & {
             top: $spacing;
-            width: column-width( 1, $columns-small );
-            @include transition-x-first;
-            height: calc( 100vh - #{ $spacing * 2 } );
-            @include medium {
-                width: column-width( 1, $columns-medium );
-            }
-            @include large {
-                width: column-width( 1, $columns-large );
-            }
+            bottom: $spacing;
         }
         
         .logo_gutter & {
+            @include transition-x-first;
             &.ih_i {
-                @include offset( -1, 4, 4 );
+                @include left( -1, 4, 6 );
+                @include right( 0, 5, 7 );
             }
             &.ih_h {
-                @include offset( $columns-small + 1, 5, 9 );
+                @include left( $columns-small, 5, 7 );
+                @include right( $columns-small + 1, 6, 8 );
             }
         }
         
         .logo_edge & {
-            cursor: pointer;
-            pointer-events: visible;
             &.ih_i {
-                @include offset( -1, 0, 0 );
+                @include left( -1, 0, 0 );
+                @include right( 0, 1, 1 );
+                @include transition-order( left, right, top, bottom );
             }
             &.ih_h {
-                @include offset( $columns-small + 1, $columns-medium - 1, $columns-large - 1 );
+                @include left( $columns-small, $columns-medium - 1, $columns-large - 1 );
+                @include right( $columns-small + 1, $columns-medium, $columns-large );
+                @include transition-order( right, left, bottom, top );
             }
         }
         
@@ -131,35 +150,31 @@
         }
     }
     
-    &__curves {
-        position: absolute;
-        width: $curves-width;
-        height: $curves-height;
-        background-image: url(../www/assets/corner.svg);
-        transform-origin: 50% 0;
-        // display: none;
-        // .fancy-corners & {
-        //     display: block;
-        // }
-        &_top {
-            top: $stroke-width;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        &_right {
-            top: 50%;
-            right: $stroke-width;
-            transform: translateX(50%) rotate(90deg);
-        }
-        &_bottom {
-            left: 50%;
-            bottom: $stroke-width;
-            transform: translate(-50%, 100%) rotate(180deg);
-        }
-        &_left {
-            top: 50%;
-            left: $stroke-width;
-            transform: translate(-50%, 0) rotate(-90deg)
-        }
-    }
+    // &__curves {
+    //     position: absolute;
+    //     width: $curves-width;
+    //     height: $curves-height;
+    //     background-image: url(../www/assets/corner.svg);
+    //     transform-origin: 50% 0;
+    //     &_top {
+    //         top: $stroke-width;
+    //         left: 50%;
+    //         transform: translateX(-50%);
+    //     }
+    //     &_right {
+    //         top: 50%;
+    //         right: $stroke-width;
+    //         transform: translateX(50%) rotate(90deg);
+    //     }
+    //     &_bottom {
+    //         left: 50%;
+    //         bottom: $stroke-width;
+    //         transform: translate(-50%, 100%) rotate(180deg);
+    //     }
+    //     &_left {
+    //         top: 50%;
+    //         left: $stroke-width;
+    //         transform: translate(-50%, 0) rotate(-90deg)
+    //     }
+    // }
 }

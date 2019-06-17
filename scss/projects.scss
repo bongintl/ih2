@@ -1,0 +1,6 @@
+#projects {
+    .toggler:not(.toggler_visible) &, .toggler_transition & {
+        height: 100vh;
+        overflow: hidden;
+    }
+}

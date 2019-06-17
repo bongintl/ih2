@@ -11,4 +11,6 @@ emitter.on( state.events.LOADED, () => {
     });
 })
 
-emitter.emit( state.events.LOAD );
+console.log(JSON.parse( document.getElementById('data').innerHTML ))
+
+emitter.emit( state.events.START, JSON.parse( document.getElementById('data').innerHTML ) );

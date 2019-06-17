@@ -7,12 +7,14 @@
     height: 100%;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    transition: opacity .5s;
+    transition: opacity $transition-duration;
     &_enter {
         opacity: 0;
         pointer-events: none;
+        overflow: hidden;
     }
     &_exit {
+        transition: opacity $transition-duration;
         opacity: 0;
     }
 }

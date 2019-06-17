@@ -1,20 +1,17 @@
 var m = require('mithril');
 
-var api = require('./api');
 var selectSrc = require('./utils/selectSrc');
 var loadImage = require('./utils/loadImage');
 var wait = require('./utils/wait');
 var { contain } = require('./utils/fitRect');
-var breakpoint = require('./utils/breakpoint')
-var { columnX, columnWidth } = require('./utils/columns');
-var { spacing, curveSize, logoPositions } = require('./config');
+var { spacing, curveSize, transitionDelay } = require('./config');
 
 var emitter = require('nanobus')();
 
 var state = {
     
     events: {
-        LOAD: 'load',
+        START: 'start',
         LOADED: 'loaded',
         ROUTE: 'route',
         RESIZE: 'resize',
@@ -28,8 +25,8 @@ var state = {
     
     data: {
         featured: [],
-        projects: [],
-        contact: []
+        contact: [],
+        projects: []
     },
     
     route: null,
@@ -41,21 +38,19 @@ var state = {
     
     featuredImageIndex: 0,
     featuredImageSize: [ 1, 1 ],
-    featuredImageAxis: 1
+    featuredImageAxis: Math.random() > .5 ? 1 : 0
     
 }
 
-emitter.on( state.events.LOAD, () => {
-    api('/').then( data => {
-        state.data = data;
-        var { image } = state.data.featured[ 0 ];
-        state.featuredImageSize = sizeFeaturedImage( image, 1 );
-        var w = state.featuredImageSize[ 0 ];
-        loadImage( selectSrc( image, w ).url )
-            .then( () => {
-                emitter.emit( state.events.LOADED );
-            })
-    })
+emitter.on( state.events.START, data => {
+    state.data = data;
+    var image = state.data.featured[ 0 ];
+    state.featuredImageSize = sizeFeaturedImage( image, 1 );
+    var w = state.featuredImageSize[ 0 ];
+    loadImage( selectSrc( image, w ).url )
+        .then( () => {
+            emitter.emit( state.events.LOADED );
+        })
 })
 
 emitter.on( state.events.ROUTE, route => {
@@ -103,7 +98,7 @@ var sizeFeaturedImage = ( image, axis ) => {
         window.innerWidth - spacing * 4,
         window.innerHeight - spacing * 4,
     ];
-    safeArea[ axis ] -= curveSize[ 1 ] * 4;
+    safeArea[ axis ] -= spacing * 4;
     var max = contain( size, safeArea );
     var scale = [ 1/4, 1/2, 3/4, 1 ][ Math.floor( Math.random() * 4 ) ];
     return [
@@ -114,13 +109,13 @@ var sizeFeaturedImage = ( image, axis ) => {
 
 emitter.on( state.events.ANIMATION_STEP, () => {
     var nextIndex = ( state.featuredImageIndex + 1 ) % state.data.featured.length;
-    var nextImage = state.data.featured[ nextIndex ].image;
+    var nextImage = state.data.featured[ nextIndex ];
     var nextAxis = state.featuredImageAxis === 0 ? 1 : 0;
     var nextSize = sizeFeaturedImage( nextImage, nextAxis );
     var cancelled = false;
     emitter.once( state.events.ANIMATION_STOP, () => cancelled = true );
     return Promise.all([
-        wait( 4000 ),
+        wait( transitionDelay * 4 ),
         loadImage( selectSrc( nextImage, nextSize[ 0 ] ).url )
     ]).then( () => {
         if ( cancelled ) return;
